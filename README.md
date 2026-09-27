@@ -88,7 +88,7 @@ Make sure PipeWire, PyGObject, and Libadwaita are installed on your Linux distri
 ### Install PipeSync
 Clone the repository and install with `pip`:
 ```bash
-git clone https://github.com/<your-username>/pipesync.git
+git clone https://github.com/MayurUbarhande0/Pipesync.git
 cd pipesync
 pip install .
 ```
