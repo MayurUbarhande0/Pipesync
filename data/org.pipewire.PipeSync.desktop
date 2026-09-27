@@ -2,10 +2,11 @@
 Name=PipeSync
 GenericName=Audio Latency Optimizer & Sync Hub
 Comment=Ultra-Low-Latency Multi-Device Audio Sharing & Helvum Wrapper
-Exec=/home/gamma/wrapper/bin/pipesync-gui
+Exec=pipesync-gui
 Icon=audio-headphones-symbolic
 Terminal=false
 Type=Application
 Categories=AudioVideo;Audio;Mixer;GTK;
 Keywords=PipeWire;Helvum;Audio;Latency;Bluetooth;Headphones;Sync;
 StartupNotify=true
+X-GNOME-Autostart-enabled=false
