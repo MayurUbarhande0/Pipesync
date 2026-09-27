@@ -85,20 +85,20 @@ Make sure PipeWire, PyGObject, and Libadwaita are installed on your Linux distri
   sudo apt install pipewire pipewire-pulse python3-gi gir1.2-adw-1 helvum
   ```
 
-### Install PipeSync
-Clone the repository and install with `pip`:
+### Install from GitHub (Arch Linux)
+
 ```bash
 git clone https://github.com/MayurUbarhande0/Pipesync.git
-cd pipesync
-pip install .
+cd Pipesync
+
+python -m pip install --break-system-packages .
 ```
 
-To run the GUI:
+Launch:
+
 ```bash
 pipesync-gui
 ```
-*(Also available in your desktop app launcher as **PipeSync**)*
-
 To run the CLI:
 ```bash
 pipesync status
