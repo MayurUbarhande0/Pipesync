@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+"""
+PipeSync CLI Launcher
+"""
+import os
+import sys
+
+# Ensure root package directory is in sys.path
+root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+if root_dir not in sys.path:
+    sys.path.insert(0, root_dir)
+
+from pipesync.cli import main
+
+if __name__ == "__main__":
+    main()
