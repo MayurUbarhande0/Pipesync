@@ -242,8 +242,22 @@ class SyncEngine:
             master_fl = f"{MASTER_SINK_NAME}:monitor_FL"
             master_fr = f"{MASTER_SINK_NAME}:monitor_FR"
 
-            subprocess.run(["pw-link", master_fl, input_fl], capture_output=True, timeout=2)
-            subprocess.run(["pw-link", master_fr, input_fr], capture_output=True, timeout=2)
+            links = (
+                subprocess.run(
+                    ["pw-link", master_fl, input_fl],
+                    capture_output=True,
+                    timeout=2,
+                ),
+                subprocess.run(
+                    ["pw-link", master_fr, input_fr],
+                    capture_output=True,
+                    timeout=2,
+                ),
+            )
+            if any(result.returncode != 0 for result in links):
+                logger.error("Failed to link PipeSync master to %s", device.name)
+                self._terminate_process(proc)
+                return None
 
             return proc
         except Exception as e:
@@ -268,6 +282,10 @@ class SyncEngine:
                 self.active_devices[dev.name] = dev
 
         self.is_running = len(self.branch_processes) > 0
+        if not self.is_running:
+            # Do not leave a defaultable virtual sink behind after a partial
+            # startup or an empty device selection.
+            self.stop_master_sink()
         logger.info(f"SyncEngine running with {len(self.branch_processes)} active output branches")
         return self.is_running
 

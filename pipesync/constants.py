@@ -8,7 +8,9 @@ from pathlib import Path
 APP_NAME = "PipeSync"
 APP_DESCRIPTION = "Ultra-Low-Latency Multi-Device Audio Sharing & Synchronization for PipeWire & Helvum"
 APP_ID = "org.pipewire.PipeSync"
-APP_VERSION = "1.0.0"
+from pipesync import __version__
+
+APP_VERSION = __version__
 
 # Master Virtual Sink Configuration
 MASTER_SINK_NAME = "pipesync_master"
@@ -62,4 +64,6 @@ CONFIG_DIR = Path(os.path.expanduser("~/.config/pipesync"))
 PROFILES_FILE = CONFIG_DIR / "profiles.json"
 SETTINGS_FILE = CONFIG_DIR / "settings.json"
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-TICK_WAV_PATH = DATA_DIR / "calibration_tick.wav"
+# Generated calibration audio belongs in the user's config area so installed
+# wheels do not depend on repository-only files and remain read-only safe.
+TICK_WAV_PATH = CONFIG_DIR / "calibration_tick.wav"

@@ -153,8 +153,17 @@ class DeviceDetector:
                     p_props = obj.get("info", {}).get("props", {})
                     if p_props.get("node.id") == node_id and obj.get("info", {}).get("direction") == "input":
                         latency_params = obj.get("info", {}).get("params", {}).get("Latency", [])
+                        if isinstance(latency_params, dict):
+                            latency_params = [latency_params]
+                        if not isinstance(latency_params, list):
+                            continue
                         for lat in latency_params:
-                            min_ns = lat.get("minNs", 0)
+                            if not isinstance(lat, dict):
+                                continue
+                            try:
+                                min_ns = float(lat.get("minNs", 0))
+                            except (TypeError, ValueError):
+                                continue
                             if min_ns > 0:
                                 reported_latency_ms = min_ns / 1_000_000.0
                                 break
