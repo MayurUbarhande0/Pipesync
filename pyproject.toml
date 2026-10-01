@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Ultra-Low-Latency Multi-Device Audio Sharing & Synchronization for PipeWire & Helvum"
 readme = "README.md"
 requires-python = ">=3.8"
-license = "MIT"
+license = { file = "LICENSE" }
 authors = [
     { name = "PipeSync Team" }
 ]
