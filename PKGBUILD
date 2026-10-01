@@ -1,5 +1,5 @@
 pkgname=pipesync
-pkgver=1.0.0
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="Ultra-Low-Latency Multi-Device Audio Sharing & Synchronization for PipeWire"
 arch=('any')

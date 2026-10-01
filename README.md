@@ -1,5 +1,7 @@
 # PipeSync
 
+**Current release: 1.1.0**
+
 > **Ultra-Low-Latency Multi-Device Audio Sharing & Optimization Layer for PipeWire & Helvum**
 
 `PipeSync` is an intelligent synchronization engine and patchbay wrapper designed to eliminate delay mismatches when sharing audio across multiple heterogeneous devices (such as **2 wired earphones and 1 Bluetooth earphone**).
@@ -104,6 +106,11 @@ To run the CLI:
 pipesync status
 ```
 
+The CLI works without GTK. The `pipesync-gui` command additionally requires
+the system packages `python-gobject`, GTK4, and Libadwaita listed above.
+PipeSync currently targets Linux with a running PipeWire/PulseAudio
+compatibility server; it does not provide a Windows or macOS backend.
+
 ---
 
 ## 🛠️ Usage Guide
@@ -179,6 +186,8 @@ A complete unit test suite is included in `tests/`:
 ```bash
 python3 -m unittest discover -s tests -v
 ```
+
+Release history is tracked in [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 

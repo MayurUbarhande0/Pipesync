@@ -6,7 +6,7 @@ import json
 import logging
 import os
 import socket
-from typing import List, Optional, Dict
+from typing import Any, List, Optional, Dict
 from pipesync.models import AudioDevice
 
 logger = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ class VideoSyncHelper:
     """
 
     @staticmethod
-    def calculate_video_offset(devices: List[AudioDevice]) -> Dict[str, any]:
+    def calculate_video_offset(devices: List[AudioDevice]) -> Dict[str, Any]:
         """
         Calculates the audio delay needed in media players so that
         the synchronized multi-headphone audio matches video on screen.

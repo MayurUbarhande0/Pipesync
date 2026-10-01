@@ -4,6 +4,8 @@ Configuration and Profiles Persistence for PipeSync
 
 import json
 import logging
+import os
+import tempfile
 from typing import Dict, Any, Optional
 
 from pipesync.constants import (
@@ -44,10 +46,29 @@ class ConfigManager:
 
     def save_settings(self):
         try:
-            with open(SETTINGS_FILE, "w") as f:
-                json.dump(self.settings, f, indent=2)
-        except Exception as e:
+            self._atomic_write_json(SETTINGS_FILE, self.settings)
+        except (OSError, TypeError, ValueError) as e:
             logger.error(f"Error saving settings: {e}")
+
+    @staticmethod
+    def _atomic_write_json(path, value):
+        """Write JSON without leaving a truncated file after an interrupted write."""
+        path.parent.mkdir(parents=True, exist_ok=True)
+        fd, temp_name = tempfile.mkstemp(
+            prefix=f".{path.name}.", dir=str(path.parent)
+        )
+        try:
+            with os.fdopen(fd, "w") as f:
+                json.dump(value, f, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(temp_name, path)
+        except Exception:
+            try:
+                os.unlink(temp_name)
+            except FileNotFoundError:
+                pass
+            raise
 
     def _load_profiles(self) -> Dict[str, SyncProfile]:
         profiles = {}
@@ -64,11 +85,10 @@ class ConfigManager:
     def save_profile(self, profile: SyncProfile):
         self.profiles[profile.name] = profile
         try:
-            with open(PROFILES_FILE, "w") as f:
-                data = {k: v.to_dict() for k, v in self.profiles.items()}
-                json.dump(data, f, indent=2)
+            data = {k: v.to_dict() for k, v in self.profiles.items()}
+            self._atomic_write_json(PROFILES_FILE, data)
             logger.info(f"Saved profile '{profile.name}'")
-        except Exception as e:
+        except (OSError, TypeError, ValueError) as e:
             logger.error(f"Error saving profile: {e}")
 
     def get_calibrated_delay(self, device_name: str) -> Optional[float]:
@@ -102,4 +122,3 @@ class ConfigManager:
             self.settings["device_volumes"] = {}
         self.settings["device_volumes"][device_name] = round(volume, 2)
         self.save_settings()
-
